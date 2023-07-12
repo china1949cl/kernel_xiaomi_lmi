@@ -1282,8 +1282,7 @@ static int try_to_force_load(struct module *mod, const char *reason)
 #endif
 }
 
-//这里改成0,始终为true
-#if 0
+#ifdef CONFIG_MODVERSIONS
 
 static u32 resolve_rel_crc(const s32 *crc)
 {
@@ -3734,10 +3733,6 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	struct module *mod;
 	long err = 0;
 	char *after_dashes;
-
-        //加入这两个flags,跳过内核模块验证，强制加载
-        flags |= MODULE_INIT_IGNORE_MODVERSIONS;
-        flags |= MODULE_INIT_IGNORE_VERMAGIC;
 
 	err = elf_header_check(info);
 	if (err)
